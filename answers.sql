@@ -5,29 +5,27 @@ CREATE DATABASE sales;
 -- Step 2 Select Database to store tables
 USE sales;
 
--- Step 3 Create a table called ProductDetail and add columns
+-- Step 3 Create a table called ProductDetail, add columns and insert data
 CREATE TABLE ProductDetail (
 OrderID INT,
 CustomerName VARCHAR(100),
 Products VARCHAR(255)
 );
 
--- Step 4 Insert data into the ProductDetail table
 INSERT INTO ProductDetail (OrderID, CustomerName, Products)
 VALUES
 (101, 'John Doe', 'Laptop, Mouse'),
 (102, 'Jane Smith', 'Tablet, Keyboard, Mouse'),
 (103, 'Emily Clark', 'Phone');
 
--- Step 5 Trasform the table into 1NF by manual normalization
--- Create a new table for normalized data
+-- Step 4 Trasform the table into 1NF by manual normalization
+-- Create a new table for normalized data and insert normalized data
 CREATE TABLE ProductDetail_1NF (
     OrderID INT,
     CustomerName VARCHAR(100),
     Products VARCHAR(100)
 );
 
--- Insert normalized data into the new table
 INSERT INTO ProductDetail_1NF (OrderID, CustomerName, Products) 
 VALUES
 (101, 'John Doe', 'Laptop'),
@@ -38,8 +36,9 @@ VALUES
 (103, 'Emily Clark', 'Phone');
 
 
+
 -- Question 2
--- Step 1 Create a table called OrderDetails and add columns
+-- Step 1 Create a table called OrderDetails, add columns and insert data
 CREATE TABLE OrderDetails (
     OrderID INT,
     CustomerName VARCHAR(100),
@@ -47,7 +46,6 @@ CREATE TABLE OrderDetails (
     Quantity INT
 );
 
--- Step 2 Insert data into the OrderDetails table
 INSERT INTO OrderDetails (OrderID, CustomerName, Product, Quantity) 
 VALUES
 (101, 'John Doe', 'Laptop', 2),
@@ -57,7 +55,7 @@ VALUES
 (102, 'Jane Smith', 'Mouse', 2),
 (103, 'Emily Clark', 'Phone', 1);
 
--- Step 3 Transform the table into 2NF by removing partial dependencies
+-- Step 2 Transform the table into 2NF by removing partial dependencies
 -- Create two new tables for normalized data
 
 -- Create a table for Orders and insert data
@@ -72,21 +70,23 @@ VALUES
 (102, 'Jane Smith'),
 (103, 'Emily Clark');
 
--- Create a table for OrderItems and insert data
-CREATE TABLE OrderItems (
-    OrderID INT,
-    Product VARCHAR(100),
+-- Create a Product table and insert data
+CREATE TABLE Product (
+    ProductID INT PRIMARY KEY AUTO_INCREMENT,
+    ProductName VARCHAR(100),
     Quantity INT,
-    PRIMARY KEY (OrderID, Product),
+    OrderID INT,
     FOREIGN KEY (OrderID) REFERENCES Orders(OrderID)
 );
 
-INSERT INTO OrderItems (OrderID, Product, Quantity) 
+INSERT INTO Product (ProductID, ProductName, Quantity, OrderID)
 VALUES
-(101, 'Laptop', 2),
-(101, 'Mouse', 1),
-(102, 'Tablet', 3),
-(102, 'Keyboard', 1),
-(102, 'Mouse', 2),
-(103, 'Phone', 1);
+(1, 'Laptop', 2, 101),
+(2, 'Mouse', 1, 101),
+(3, 'Tablet', 3, 102),
+(4, 'Keyboard', 1, 102),
+(5, 'Mouse', 2, 102),
+(6, 'Phone', 1, 103);
+
+
 
